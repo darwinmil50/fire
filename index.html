@@ -1,116 +1,21 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SAI - Sistema de Alerta de Incendios</title>
+MIT License
 
-  <link rel="preconnect" href="https://unpkg.com">
-  <link rel="preconnect" href="https://tile.openstreetmap.org">
+Copyright (c) 2026 Darwin Calderon
 
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files, to deal in the Software
+without restriction, including without limitation the rights to use, copy,
+modify, merge, publish, distribute, sublicense, and/or sell copies of the
+Software, and to permit persons to whom the Software is furnished to do so,
+subject to the following conditions:
 
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="fire-effects.css">
-</head>
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
 
-<body>
-  <header class="topbar">
-    <div class="brand">
-      <div class="brand-icon">♨</div>
-      <div>
-        <h1>SAI - Sistema de Alerta de Incendios</h1>
-        <p>Monitoreo de puntos de calor mediante NASA FIRMS</p>
-      </div>
-    </div>
-
-    <div class="actions">
-      <button id="refreshBtn" class="btn primary">↻ Actualizar</button>
-      <button id="locateBtn" class="btn">⌖ Mi ubicación</button>
-    </div>
-  </header>
-
-  <main class="layout">
-    <aside class="panel">
-      <section class="card">
-        <h2>Configuración FIRMS</h2>
-        <p class="muted">Introduce tu MAP_KEY de NASA FIRMS. Se guarda solamente en este navegador.</p>
-
-        <label for="mapKey">MAP_KEY</label>
-        <input id="mapKey" type="password" placeholder="Pega aquí tu MAP_KEY">
-
-        <div class="row">
-          <button id="saveKeyBtn" class="btn primary full">Guardar clave</button>
-          <button id="clearKeyBtn" class="btn full">Borrar</button>
-        </div>
-
-        <a class="help-link" href="https://firms.modaps.eosdis.nasa.gov/api/map_key/" target="_blank" rel="noopener">
-          Obtener MAP_KEY gratis en NASA FIRMS →
-        </a>
-      </section>
-
-      <section class="card">
-        <h2>Zona de monitoreo</h2>
-        <select id="areaSelect">
-          <option value="colombia">Colombia</option>
-          <option value="norte">Colombia + Ecuador + Venezuela</option>
-          <option value="sudamerica">Sudamérica norte</option>
-        </select>
-
-        <label for="daysRange">Días de datos</label>
-        <select id="daysRange">
-          <option value="1">Último día</option>
-          <option value="2">Últimos 2 días</option>
-          <option value="3" selected>Últimos 3 días</option>
-          <option value="5">Últimos 5 días</option>
-        </select>
-
-        <label for="sensorSelect">Satélite</label>
-        <select id="sensorSelect">
-          <option value="VIIRS_NOAA20_NRT">VIIRS NOAA-20</option>
-          <option value="VIIRS_NOAA21_NRT" selected>VIIRS NOAA-21</option>
-          <option value="VIIRS_SNPP_NRT">VIIRS Suomi-NPP</option>
-        </select>
-      </section>
-
-      <section class="card stats">
-        <h2>Resumen</h2>
-        <div class="stat"><span>Total</span><strong id="totalCount">—</strong></div>
-        <div class="stat"><span>Baja</span><strong id="lowCount">—</strong></div>
-        <div class="stat"><span>Moderada</span><strong id="mediumCount">—</strong></div>
-        <div class="stat"><span>Alta</span><strong id="highCount">—</strong></div>
-        <div class="stat critical"><span>Crítica + humo</span><strong id="criticalCount">—</strong></div>
-      </section>
-
-      <section class="card legend">
-        <h2>Niveles visuales</h2>
-        <div class="legend-item"><span class="dot low">•</span> Baja intensidad</div>
-        <div class="legend-item"><span class="dot medium">•</span> Intensidad moderada</div>
-        <div class="legend-item"><span class="dot high">•</span> Alta intensidad</div>
-        <div class="legend-item"><span class="fire-mini">🔥</span> Crítica / humo animado</div>
-      </section>
-
-      <div id="status" class="status info">Introduce tu MAP_KEY para cargar FIRMS.</div>
-    </aside>
-
-    <section class="map-wrap">
-      <div id="map"></div>
-      <div class="map-badge">NASA FIRMS • VIIRS • Tiempo casi real</div>
-      <div id="loading" class="loading hidden">
-        <div class="spinner"></div>
-        <span>Consultando NASA FIRMS…</span>
-      </div>
-    </section>
-  </main>
-
-  <footer>
-    <span>SAI — Proyecto académico</span>
-    <span>Datos: NASA FIRMS • Mapa: OpenStreetMap</span>
-  </footer>
-
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-          integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
-          crossorigin=""></script>
-  <script src="app.js"></script>
-</body>
-</html>
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.

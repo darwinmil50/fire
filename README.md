@@ -1,93 +1,76 @@
-# SAI - Sistema de Alerta de Incendios
+/* Marcadores creativos para el SAI */
 
-Proyecto web para Visual Studio Code + GitHub Pages.
+.fire-marker {
+  position: relative;
+  width: 34px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+}
 
-## Qué hace
+.fire-marker .flame {
+  font-size: 28px;
+  filter: drop-shadow(0 0 6px rgba(255,91,24,.85));
+  animation: flamePulse 1s ease-in-out infinite alternate;
+  transform-origin: 50% 90%;
+}
 
-- Muestra un mapa Leaflet.
-- Consulta NASA FIRMS mediante su API de área.
-- Usa datos VIIRS en tiempo casi real.
-- Clasifica las detecciones por FRP (Fire Radiative Power) y por concentración de puntos cercanos.
-- Detecciones bajas: punto discreto.
-- Detecciones moderadas/altas: fuego animado.
-- Detecciones críticas: fuego grande + humo animado.
-- Al hacer clic en un incendio muestra FRP, coordenadas, fecha, hora, confianza y satélite.
-- La MAP_KEY se guarda en `localStorage` del navegador y no se escribe en el repositorio.
+.fire-marker.medium .flame { font-size: 35px; }
+.fire-marker.high .flame { font-size: 43px; }
 
-## 1. Obtener MAP_KEY
+@keyframes flamePulse {
+  from { transform: scale(.92) rotate(-2deg); }
+  to   { transform: scale(1.08) rotate(2deg); }
+}
 
-Solicítala gratis en:
+/* Incendio crítico: fuego + humo que asciende */
+.fire-critical {
+  position: relative;
+  width: 86px;
+  height: 112px;
+  pointer-events: none;
+}
 
-https://firms.modaps.eosdis.nasa.gov/api/map_key/
+.fire-critical .flame {
+  position: absolute;
+  left: 24px;
+  bottom: 3px;
+  font-size: 50px;
+  z-index: 4;
+  filter: drop-shadow(0 0 10px rgba(255,71,22,.95));
+  animation: criticalFlame .8s ease-in-out infinite alternate;
+}
 
-Después de recibirla por correo, abre la página del proyecto y pégala en el campo MAP_KEY.
+@keyframes criticalFlame {
+  from { transform: scale(.92) rotate(-3deg); }
+  to   { transform: scale(1.1) rotate(3deg); }
+}
 
-## 2. Probar en VS Code
+.smoke {
+  position: absolute;
+  bottom: 46px;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 35% 35%, rgba(230,235,238,.55), rgba(105,111,116,.28) 55%, rgba(30,35,40,0) 72%);
+  filter: blur(1px);
+  opacity: 0;
+  z-index: 3;
+}
 
-No abras `index.html` directamente con `file://` si el navegador bloquea alguna solicitud.
+.smoke.s1 { width: 27px; height: 27px; left: 24px; animation: smokeUp 3.2s ease-out infinite; }
+.smoke.s2 { width: 34px; height: 34px; left: 42px; bottom: 50px; animation: smokeUp 3.2s 1.05s ease-out infinite; }
+.smoke.s3 { width: 23px; height: 23px; left: 11px; bottom: 49px; animation: smokeUp 3.2s 1.7s ease-out infinite; }
+.smoke.s4 { width: 40px; height: 40px; left: 27px; bottom: 62px; animation: smokeUp 3.2s 2.2s ease-out infinite; }
 
-La forma recomendada es usar una extensión como **Live Server** en VS Code:
+@keyframes smokeUp {
+  0%   { transform: translate(0, 10px) scale(.45); opacity: 0; }
+  15%  { opacity: .55; }
+  55%  { opacity: .30; }
+  100% { transform: translate(20px, -58px) scale(1.55); opacity: 0; }
+}
 
-1. Instala "Live Server".
-2. Abre esta carpeta en VS Code.
-3. Clic derecho en `index.html`.
-4. Selecciona "Open with Live Server".
-
-## 3. Publicar en GitHub
-
-Crea un repositorio público llamado:
-
-`fire`
-
-Tu URL será:
-
-`https://darwincalderon.github.io/fire/`
-
-Desde la terminal de VS Code:
-
-```bash
-git init
-git add .
-git commit -m "SAI - Sistema de Alerta de Incendios"
-git branch -M main
-git remote add origin https://github.com/darwincalderon/fire.git
-git push -u origin main
-```
-
-Después en GitHub:
-
-Settings → Pages → Build and deployment → Source: GitHub Actions
-
-El repositorio incluye un workflow en `.github/workflows/pages.yml` para publicar el sitio.
-
-## 4. Sobre los incendios "grandes"
-
-FIRMS proporciona FRP (Fire Radiative Power), que se usa aquí como indicador de intensidad radiativa. Los umbrales del proyecto son una clasificación visual heurística; no significan que NASA FIRMS esté diciendo directamente el tamaño físico del incendio.
-
-Los umbrales iniciales son:
-
-- < 20 MW: baja
-- 20–49.99 MW: moderada
-- 50–99.99 MW: alta
-- >= 100 MW: crítica
-
-Además, si hay suficientes detecciones próximas entre sí, la zona puede subir a crítica para que se vea como una concentración de actividad.
-
-## 5. Nota sobre la MAP_KEY
-
-GitHub Pages es alojamiento estático. Cualquier clave que se incluya directamente en JavaScript sería visible para los visitantes.
-
-Por eso este proyecto NO contiene tu MAP_KEY. La clave se introduce en el navegador y se guarda únicamente en `localStorage`.
-
-Para un proyecto académico esto es práctico, pero para un sistema de producción convendría colocar la consulta FIRMS detrás de un backend/proxy y mantener la clave fuera del navegador.
-
-## Fuentes
-
-NASA FIRMS API:
-https://firms.modaps.eosdis.nasa.gov/api/
-
-NASA FIRMS Area API:
-https://firms.modaps.eosdis.nasa.gov/api/area/
-
-GitHub Pages:
-https://docs.github.com/en/pages
+.leaflet-div-icon.fire-div-icon,
+.leaflet-div-icon.critical-div-icon {
+  background: transparent;
+  border: 0;
+}
