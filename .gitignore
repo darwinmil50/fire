@@ -1,0 +1,17 @@
+# Sistema operativo
+.DS_Store
+Thumbs.db
+
+# VS Code
+.vscode/
+
+# Dependencias si se agregan posteriormente
+node_modules/
+
+# Archivos temporales
+*.log
+*.tmp
+
+# No guardar claves locales
+.env
+.env.*
